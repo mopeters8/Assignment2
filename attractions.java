@@ -18,7 +18,7 @@ public class attractions {
     public String getName() {
         return attraction;
     }
-    public String getNextCity() {
+    public String getLocation() {
         return location;
     }
     public int getNumber() { return number;}

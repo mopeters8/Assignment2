@@ -6,11 +6,12 @@ public class roadtrip {
 
     ArrayList<city> roadContents = new ArrayList<>();
     ArrayList<attractions> attractionContents = new ArrayList<attractions>();
+    ArrayList<Integer> attractionlist = new ArrayList<>();
+    ArrayList<city> mustvisit = new ArrayList<>();
 
 //
 //        STORING ALL CITIES/CITIES DATA & INPUT FROM USER FOR STARTING/ENDING CITY
 //
-
     public int pickRoads(File roads) throws IOException {
         BufferedReader roadReader = new BufferedReader(new FileReader(roads));
         city addroad = new city();
@@ -41,7 +42,6 @@ public class roadtrip {
 //
 //        STORING ALL ATTRACTIONS/ATTRACTION DATA & asking user for what attractions they want.
 //
-
     public int pickEvent(File attractions) throws IOException {
         BufferedReader attractionReader = new BufferedReader(new FileReader(attractions));
         attractions addevent = new attractions();
@@ -64,6 +64,53 @@ public class roadtrip {
         return counte - 1;
     }
 
+//
+//        CREATED A MUSTVISIT LIST, TURNING ATTRACTIONS INTO CITIES AND ADDING IT TO THE LIST.
+//
+
+    public void addmustvisit(int startcity, int endcity, ArrayList<Integer> aList) {
+        //might need to add more than one of the city to the list?
+        city addroad = new city();
+        city start = roadContents.get(startcity);
+        city c = null;
+
+        mustvisit.add(start);
+        city end = roadContents.get(endcity);
+
+        for (int i = 0; i < aList.size(); i++) {
+            String currName = attractionContents.get(aList.get(i)).getLocation();
+            city cityName = null;
+            int count = 0;
+            while (cityName == null)
+            {
+                if (currName.equals(roadContents.get(count).getName()) || currName.equals(roadContents.get(count).getNextCity()) && count != 152)  //Pigeon forge is not a city, Sargent Forge is not a city in roads.csv A BUNCH OF CITIES
+                {
+                    if (currName.equals(roadContents.get(count).getName())) {
+                        cityName = roadContents.get(count);
+                    }
+                    else if (currName.equals(roadContents.get(count).getNextCity())) {
+                        c = addroad.cityadd(currName, null, null, null, 0);
+                        cityName = roadContents.get(count);
+                    }
+                }
+                count++;
+            }
+            mustvisit.add(cityName);
+            if (c != null) {
+                mustvisit.add(c);
+            }
+
+        }
+        mustvisit.add(end);
+
+        for (int i = 0; i < mustvisit.size(); i++) {
+            System.out.println(mustvisit.get(i).getName());
+        } //test to preview the mustvisit list.
+    }
+
+//
+//        THIS IS MY MAIN
+//
     public static void main (String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         city cityObject = new city();
@@ -84,7 +131,6 @@ public class roadtrip {
             cityendchoice = sc.nextInt();
         }
 
-
         ArrayList<Integer> attractionlist = new ArrayList<>();  //list of attractions with integers.
         int attractioncount = trip.pickEvent(attractions);
 
@@ -99,14 +145,27 @@ public class roadtrip {
         }
 
         System.out.println("/////////////////////\n/// YOU SELECTED: ///\n/////////////////////\n");
-
         System.out.println("Beginning City: "+trip.roadContents.get(citychoice).getName()+", "+trip.roadContents.get(citychoice).getNumber());  //beginning city
         System.out.println("Ending City: "+trip.roadContents.get(cityendchoice).getName()+", "+trip.roadContents.get(cityendchoice).getNumber()+"\n"); //ending city
-
         for (int i = 0; i < attractionlist.size(); i++) {
             int pick = attractionlist.get(i);
             System.out.print("Attraction "+(i+1)+": "+trip.attractionContents.get(pick).getName()+", "+trip.attractionContents.get(pick).getNumber()+"\n");
         }
+
+        trip.addmustvisit(citychoice, cityendchoice, attractionlist);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

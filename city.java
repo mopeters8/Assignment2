@@ -2,9 +2,9 @@ public class city {
     roadtrip roadtripObject = new roadtrip();
 
     private String name;
-    private String nextCity;
-    private String miles;
-    private String minutes;
+    private String nextCity = null;
+    private String miles = null;
+    private String minutes = null;
     private int number;
 
     public city(String sName, String sNextCity, String sMiles, String sMinutes, int sNumber)
