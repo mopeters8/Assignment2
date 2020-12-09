@@ -4,7 +4,7 @@ public class city {
     private String name;
     private String nextCity = null;
     private String miles = null;
-    private String minutes = null;
+    private String minutes;
     private int number;
 
     public city(String sName, String sNextCity, String sMiles, String sMinutes, int sNumber)
@@ -25,11 +25,12 @@ public class city {
     public String getNextCity() {
         return nextCity;
     }
-    public String getMiles() {
-        return miles;
+    public int getMiles() {
+        return Integer.parseInt(miles);
     }
-    public String getMinutes() {
-        return minutes;
+    public int getMinutes() {
+        int thisminutes = Integer.parseInt(minutes);
+        return thisminutes;
     }
     public int getNumber() { return number; }
 
